@@ -1,18 +1,18 @@
 package conexao2;
-class Livros {
+class Autores {
 	private int codigo;
 	private String nome;
 	private int idade;
 	private String genero;
 	
-	public Livros() {
+	public Autores() {
 		this.codigo = -1;
 		this.nome = "";
 		this.idade = 0;
 		this.genero = "";
 	}
 	
-	public Livros(int codigo, String nome, int idade, String genero) {
+	public Autores(int codigo, String nome, int idade, String genero) {
 		this.codigo = codigo;
 		this.nome = nome;
 		this.idade = idade;
@@ -53,7 +53,7 @@ class Livros {
 
 	@Override
 	public String toString() {
-		return "Usuario [codigo=" + codigo + ", nome=" + nome + ", idade=" + idade + ", genero=" + genero + "]";
+		return "Autor [codigo=" + codigo + ", nome=" + nome + ", idade=" + idade + ", genero=" + genero + "]";
 	}	
 }
 

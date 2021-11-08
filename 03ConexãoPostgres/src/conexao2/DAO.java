@@ -11,7 +11,7 @@ public class DAO {
 		String driverName = "org.postgresql.Driver";                    
 		String serverName = "localhost";
 		String mydatabase = "livros";
-		int porta = 5433;
+		int porta = 5432;
 		String url = "jdbc:postgresql://" + serverName + ":" + porta +"/" + mydatabase;
 		String username = "ti2cc";
 		String password = "ti@cc";
@@ -43,13 +43,13 @@ public class DAO {
 		return status;
 	}
 	
-	public boolean inserirLivros(Livros livro) {
+	public boolean inserirAutor(Autores autor) {
 		boolean status = false;
 		try {  
 			Statement st = conexao.createStatement();
-			st.executeUpdate("INSERT INTO usuario (codigo, nome, idade, genero) "
-					       + "VALUES ("+livro.getCodigo()+ ", '" + livro.getNome() + "', '"  
-					       + livro.getIdade() + "', '" + livro.getGenero() + "');");
+			st.executeUpdate("INSERT INTO Autores (codigo, nome, idade, genero) "
+					       + "VALUES ("+autor.getCodigo()+ ", '" + autor.getNome() + "', '"  
+					       + autor.getIdade() + "', '" + autor.getGenero() + "');");
 			st.close();
 			status = true;
 		} catch (SQLException u) {  
@@ -58,13 +58,13 @@ public class DAO {
 		return status;
 	}
 	
-	public boolean atualizarLivros(Livros livro) {
+	public boolean atualizarAutor(Autores autor) {
 		boolean status = false;
 		try {  
 			Statement st = conexao.createStatement();
-			String sql = "UPDATE autores SET nome = '" + livro.getNome() + "', idade = '"  
-				       + livro.getIdade() + "', genero = '" + livro.getGenero() + "'"
-					   + " WHERE codigo = " + livro.getCodigo();
+			String sql = "UPDATE Autores SET nome = '" + autor.getNome() + "', idade = '"  
+				       + autor.getIdade() + "', genero = '" + autor.getGenero() + "'"
+					   + " WHERE codigo = " + autor.getCodigo();
 			st.executeUpdate(sql);
 			st.close();
 			status = true;
@@ -74,11 +74,11 @@ public class DAO {
 		return status;
 	}
 	
-	public boolean excluirLivros(int codigo) {
+	public boolean excluirAutor(int codigo) {
 		boolean status = false;
 		try {  
 			Statement st = conexao.createStatement();
-			st.executeUpdate("DELETE FROM autores WHERE codigo = " + codigo);
+			st.executeUpdate("DELETE FROM Autores WHERE codigo = " + codigo);
 			st.close();
 			status = true;
 		} catch (SQLException u) {  
@@ -88,19 +88,19 @@ public class DAO {
 	}
 	
 	
-	public Livros[] getLivros() {
-		Livros[] usuarios = null;
+	public Autores[] getAutores() {
+		Autores[] autores = null;
 		
 		try {
 			Statement st = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			ResultSet rs = st.executeQuery("SELECT * FROM usuario");		
+			ResultSet rs = st.executeQuery("SELECT * FROM Autores");		
 	         if(rs.next()){
 	             rs.last();
-	             usuarios = new Livros[rs.getRow()];
+	             autores = new Autores[rs.getRow()];
 	             rs.beforeFirst();
 
 	             for(int i = 0; rs.next(); i++) {
-	                usuarios[i] = new Livros(rs.getInt("codigo"), rs.getString("nome"), 
+	                autores[i] = new Autores(rs.getInt("codigo"), rs.getString("nome"), 
 	                		                  rs.getInt("idade"), rs.getString("genero"));
 	             }
 	          }
@@ -108,31 +108,8 @@ public class DAO {
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
-		return usuarios;
+		return autores;
 	}
 
-	
-	public Livros[] getLivrosMasculinos() {
-		Livros[] livros = null;
-		
-		try {
-			Statement st = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			ResultSet rs = st.executeQuery("SELECT * FROM usuario WHERE usuario.sexo LIKE 'M'");		
-	         if(rs.next()){
-	             rs.last();
-	             livros = new Livros[rs.getRow()];
-	             rs.beforeFirst();
-
-	             for(int i = 0; rs.next(); i++) {
-		                livros[i] = new Livros(rs.getInt("codigo"), rs.getString("nome"), 
-		                		                  rs.getInt("idade"), rs.getString("genero"));
-		             }
-	          }
-	          st.close();
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
-		return livros;
-	}
 }
 
